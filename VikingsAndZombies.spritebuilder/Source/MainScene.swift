@@ -7,6 +7,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var rightAttackLabel: CCLabelTTF!
     var scrollSpeed = CGFloat(60)
     var tiles: [CCNode] = [] // creates array for tiles
+    var bgs: [CCNode] = []
     weak var gamePhysicsNode : CCPhysicsNode! //links physiscs node
     weak var viking: Viking! //links viking sprite from MainScene to code
     var vikingSpeed: Int! = 0 //inits the viking speed as an int and nothing
@@ -23,6 +24,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             tile.position = ccp(tile.position.x + CGFloat(i) * tile.contentSize.width, 0)
             tiles.append(tile)
             gamePhysicsNode.addChild(tile)
+        }
+        //appeneds bg objects to a bg array
+        for i in 0...10{
+            let bg = CCBReader.load("Background")
+            bg.position = ccp(bg.position.x + CGFloat(i) * bg.contentSize.width, 0)
+            bgs.append(bg)
+            bg.zOrder -= 1
+            gamePhysicsNode.addChild(bg)
         }
     }
     
@@ -129,6 +138,13 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                     tile.position = ccp(tile.position.x + tile.contentSize.width * 10, tile.position.y)
                 }
             }
+            for bg in bgs {
+                if bg.position.x <= (-bg.contentSize.width) {
+                    bg.position = ccp(bg.position.x + bg.contentSize.width * 2, bg.position.y)
+                }
+            }
+            
+            
         }
     }
     
